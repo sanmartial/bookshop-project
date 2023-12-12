@@ -34,7 +34,7 @@ public class BookRepositoryImpl implements BookRepository {
 
             if (transaction != null) {
                 transaction.rollback();
-                throw new DataProcessingException("Can't create book" + book);
+                throw new DataProcessingException("Can't create book" + book, e);
             }
         } finally {
             if (session != null) {
@@ -50,7 +50,7 @@ public class BookRepositoryImpl implements BookRepository {
             Query<Book> getOrder = session.createQuery("FROM Book ", Book.class);
             return getOrder.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error. No books found");
+            throw new DataProcessingException("Error. No books found", e);
         }
     }
 }
