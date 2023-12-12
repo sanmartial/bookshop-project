@@ -23,19 +23,20 @@ public class BookshopProjectApplication {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
-                Book book1984 = new Book(
-                        "1984",
-                        "George Orwell",
-                        "978-966-2355-57-4",
-                        BigDecimal.valueOf(140),
-                        "The world where Big Brother controls its citizens like "
+                Book book1984 = Book.builder()
+                        .title("1984")
+                        .author("George Orwell")
+                        .isbn("978-966-2355-57-4")
+                        .price(BigDecimal.valueOf(140))
+                        .description("The world where Big Brother controls its citizens like "
                                 + "a boot stamping on a human face' has become "
                                 + "a touchstone for human freedom, and one of "
-                                + "the most widely-read books in the world.",
-                        "coverImage_1984");
+                                + "the most widely-read books in the world.")
+                        .coverImage("coverImage_1984")
+                                .build();
+
                 bookService.save(book1984);
                 bookService.findAll().forEach(System.out::println);
-
             }
         };
     }
