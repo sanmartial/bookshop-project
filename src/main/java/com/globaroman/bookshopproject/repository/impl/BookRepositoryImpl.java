@@ -34,7 +34,9 @@ public class BookRepositoryImpl implements BookRepository {
 
             if (transaction != null) {
                 transaction.rollback();
+
                 throw new DataProcessingException("Can't create book" + book, e);
+
             }
         } finally {
             if (session != null) {
@@ -54,3 +56,6 @@ public class BookRepositoryImpl implements BookRepository {
         }
     }
 }
+
+
+

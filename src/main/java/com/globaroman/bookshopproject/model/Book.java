@@ -7,12 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "books")
+
 @Data
+
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,12 +34,9 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title,
-                String author,
-                String isbn,
-                BigDecimal price,
-                String description,
-                String coverImage) {
+
+
+    public Book(String title, String author, String isbn, BigDecimal price, String description, String coverImage) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
