@@ -1,10 +1,13 @@
 package com.globaroman.bookshopproject.service;
 
-import com.globaroman.bookshopproject.model.Book;
+import com.globaroman.bookshopproject.dto.BookDto;
+import com.globaroman.bookshopproject.dto.CreateBookRequestDto;
 import java.util.List;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto requestDto);
 
-    List<Book> findAll();
+    List<BookDto> findAll();
+
+    BookDto getById(Long id);
 }
