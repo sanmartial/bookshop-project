@@ -4,6 +4,7 @@ import com.globaroman.bookshopproject.exception.DataProcessingException;
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.repository.BookRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,6 +46,17 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Book> getOrder = session.createQuery("FROM Book ", Book.class);
             return getOrder.getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error. No books found", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Book> getOrder = session.createQuery("FROM Book b WHERE b.id = :id", Book.class);
+            getOrder.setParameter("id", id);
+            return Optional.ofNullable(getOrder.getSingleResultOrNull());
         } catch (Exception e) {
             throw new DataProcessingException("Error. No books found", e);
         }
