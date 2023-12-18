@@ -1,6 +1,7 @@
 package com.globaroman.bookshopproject.service;
 
 import com.globaroman.bookshopproject.dto.BookDto;
+import com.globaroman.bookshopproject.dto.BookSearchParameters;
 import com.globaroman.bookshopproject.dto.CreateBookRequestDto;
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface BookService {
     void deleteById(Long id);
 
     void update(Long id, CreateBookRequestDto bookDto);
+
+    List<BookDto> search(BookSearchParameters bookSearchParameterDto);
 }
