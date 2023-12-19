@@ -5,10 +5,11 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
 public class IsbnValidator implements ConstraintValidator<Isbn, String> {
-    private final String patternOfIsbn = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d -]{13}$";
+    private static final String PATTERN_OF_ISBN =
+            "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d -]{13}$";
 
     @Override
     public boolean isValid(String isbn, ConstraintValidatorContext constraintValidatorContext) {
-        return isbn != null && Pattern.compile(patternOfIsbn).matcher(isbn).matches();
+        return isbn != null && Pattern.compile(PATTERN_OF_ISBN).matcher(isbn).matches();
     }
 }
