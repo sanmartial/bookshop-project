@@ -1,4 +1,41 @@
+HW:
 
+Domain models (entities)
+There is a list of all entities that should be present in the project after this HW:
+
+Book: Represents a book available in the store.
+User: Contains information about the registered user including their authentication details and personal information.
+Endpoints
+There is a list of endpoints that should be in the project after this HW:
+
+User Endpoints:
+
+It should be an AuthenticationController with the following endpoints:
+
+POST: /api/auth/registeration (User registration)
+Example of request body:
+
+{
+"email": "john.doe@example.com",
+"password": "securePassword123",
+"repeatPassword": "securePassword123",
+"firstName": "John",
+"lastName": "Doe",
+"shippingAddress": "123 Main St, City, Country"
+}
+
+Example of response body:
+
+{
+"id": 1,
+"email": "john.doe@example.com",
+"firstName": "John",
+"lastName": "Doe",
+"shippingAddress": "123 Main St, City, Country"
+}
+
+
+//-//-//-//-//-//-//-//-//-//-//-//-//-//-//-//
 Project description
 We are going to implement an app for Online Book store. We will implement it step by step. 
 In this app we will have the following domain models (entities):
