@@ -4,8 +4,11 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Objects;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.util.ReflectionUtils;
 
+@Log4j2
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
     private String firstFieldName;
     private String secondFieldName;
@@ -23,11 +26,11 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
             Field secondField = ReflectionUtils.findField(value.getClass(), secondFieldName);
             Object firstObj = getFieldValueByFieldName(firstField.getName(), value);
             Object secondObj = getFieldValueByFieldName(secondField.getName(), value);
-
-            return firstObj == null && secondObj == null
-                    || firstObj != null && firstObj.equals(secondObj);
+            return Objects.equals(firstObj, secondObj);
         } catch (Exception e) {
-            throw new RuntimeException("Passwords aren't equals", e);
+            log.error("An error occurred while validating fields: {}", e.getMessage());
+            log.debug("Stack trace: ", e);
+            return false;
         }
     }
 
