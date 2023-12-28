@@ -1,4 +1,5 @@
 
+//-//-//-//-//-//-//-//-//-//-//-//-//-//-//-//
 Project description
 We are going to implement an app for Online Book store. We will implement it step by step. 
 In this app we will have the following domain models (entities):
