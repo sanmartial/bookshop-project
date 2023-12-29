@@ -3,7 +3,7 @@ package com.globaroman.bookshopproject.service.impl;
 import com.globaroman.bookshopproject.dto.BookDto;
 import com.globaroman.bookshopproject.dto.BookSearchParameters;
 import com.globaroman.bookshopproject.dto.CreateBookRequestDto;
-import com.globaroman.bookshopproject.exception.EntityNotFoundException;
+import com.globaroman.bookshopproject.exception.EntityNotFoundCustomException;
 import com.globaroman.bookshopproject.mapper.BookMapper;
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.repository.BookRepository;
@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto getById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("No found book by id: " + id)
+                () -> new EntityNotFoundCustomException("No found book by id: " + id)
         );
         return bookMapper.toDto(book);
     }
@@ -54,7 +54,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void update(Long id, CreateBookRequestDto bookDto) {
         Book bookFromDB = bookRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("No found book by id: " + id));
+                () -> new EntityNotFoundCustomException("No found book by id: " + id));
         bookMapper.updateBookFromDto(bookFromDB, bookDto);
         bookRepository.save(bookFromDB);
     }
