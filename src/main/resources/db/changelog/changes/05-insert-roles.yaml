@@ -13,7 +13,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insert_admin_role
-      author: your_name
+      author: org.globaroman
 
       changes:
         - insert:
