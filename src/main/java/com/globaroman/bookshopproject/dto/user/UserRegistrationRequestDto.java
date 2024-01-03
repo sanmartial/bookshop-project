@@ -1,4 +1,4 @@
-package com.globaroman.bookshopproject.dto;
+package com.globaroman.bookshopproject.dto.user;
 
 import com.globaroman.bookshopproject.validation.FieldMatch;
 import jakarta.validation.constraints.Email;

@@ -1,4 +1,4 @@
-package com.globaroman.bookshopproject.dto;
+package com.globaroman.bookshopproject.dto.user;
 
 import lombok.Data;
 

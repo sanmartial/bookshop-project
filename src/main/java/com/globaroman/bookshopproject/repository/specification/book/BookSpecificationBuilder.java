@@ -1,6 +1,6 @@
 package com.globaroman.bookshopproject.repository.specification.book;
 
-import com.globaroman.bookshopproject.dto.BookSearchParameters;
+import com.globaroman.bookshopproject.dto.book.BookSearchParameters;
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.repository.specification.SpecificationBuilder;
 import com.globaroman.bookshopproject.repository.specification.SpecificationProviderManager;
