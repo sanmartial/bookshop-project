@@ -1,8 +1,8 @@
 package com.globaroman.bookshopproject.controller;
 
-import com.globaroman.bookshopproject.dto.BookDto;
-import com.globaroman.bookshopproject.dto.BookSearchParameters;
-import com.globaroman.bookshopproject.dto.CreateBookRequestDto;
+import com.globaroman.bookshopproject.dto.book.BookDto;
+import com.globaroman.bookshopproject.dto.book.BookSearchParameters;
+import com.globaroman.bookshopproject.dto.book.CreateBookRequestDto;
 import com.globaroman.bookshopproject.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

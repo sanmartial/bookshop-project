@@ -1,11 +1,10 @@
-package com.globaroman.bookshopproject.dto;
+package com.globaroman.bookshopproject.dto.book;
 
 import java.math.BigDecimal;
-import lombok.Builder;
+import java.util.List;
 import lombok.Data;
 
 @Data
-@Builder
 public class BookDto {
     private Long id;
     private String title;
@@ -14,4 +13,5 @@ public class BookDto {
     private BigDecimal price;
     private String description;
     private String coverImage;
+    private List<Long> categoryIds;
 }

@@ -1,9 +1,9 @@
 package com.globaroman.bookshopproject.controller;
 
-import com.globaroman.bookshopproject.dto.UserLoginRequestDto;
-import com.globaroman.bookshopproject.dto.UserLoginResponseDto;
-import com.globaroman.bookshopproject.dto.UserRegistrationRequestDto;
-import com.globaroman.bookshopproject.dto.UserResponseDto;
+import com.globaroman.bookshopproject.dto.user.UserLoginRequestDto;
+import com.globaroman.bookshopproject.dto.user.UserLoginResponseDto;
+import com.globaroman.bookshopproject.dto.user.UserRegistrationRequestDto;
+import com.globaroman.bookshopproject.dto.user.UserResponseDto;
 import com.globaroman.bookshopproject.exception.RegistrationException;
 import com.globaroman.bookshopproject.service.AuthenticationService;
 import com.globaroman.bookshopproject.service.UserService;
