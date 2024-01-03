@@ -1,7 +1,7 @@
 package com.globaroman.bookshopproject.service;
 
-import com.globaroman.bookshopproject.dto.UserLoginRequestDto;
-import com.globaroman.bookshopproject.dto.UserLoginResponseDto;
+import com.globaroman.bookshopproject.dto.user.UserLoginRequestDto;
+import com.globaroman.bookshopproject.dto.user.UserLoginResponseDto;
 import com.globaroman.bookshopproject.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

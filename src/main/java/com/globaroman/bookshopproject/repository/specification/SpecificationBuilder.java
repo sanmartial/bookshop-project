@@ -1,6 +1,6 @@
 package com.globaroman.bookshopproject.repository.specification;
 
-import com.globaroman.bookshopproject.dto.BookSearchParameters;
+import com.globaroman.bookshopproject.dto.book.BookSearchParameters;
 import org.springframework.data.jpa.domain.Specification;
 
 public interface SpecificationBuilder<T> {
