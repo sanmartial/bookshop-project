@@ -6,15 +6,16 @@ import com.globaroman.bookshopproject.dto.book.BookDtoWithoutCategoryIds;
 import com.globaroman.bookshopproject.dto.book.CreateBookRequestDto;
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.model.Category;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
@@ -62,9 +63,8 @@ public interface BookMapper {
                 .orElse(null);
     }
 
-    @Named("bookToTitle")
-    default String bookToTitle(Book book) {
+    @Named("getTitleFromBook")
+    default String getTitleFromBook(Book book) {
         return book != null ? book.getTitle() : null;
     }
-
 }

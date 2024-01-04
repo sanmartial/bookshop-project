@@ -52,8 +52,4 @@ public class Book {
     public Book(Long id) {
         this.id = id;
     }
-
-    public Long getId(Book book) {
-        return book.getId();
-    }
 }

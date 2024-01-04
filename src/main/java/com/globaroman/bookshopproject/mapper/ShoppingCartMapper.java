@@ -14,7 +14,7 @@ import org.mapstruct.Mapping;
 public interface ShoppingCartMapper {
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "cartItems", target = "carItems")
-    ShoppingCartDto toshoppingCartDto(ShoppingCart shoppingCart);
+    ShoppingCartDto toShoppingCartDto(ShoppingCart shoppingCart);
 
     List<CarItemDto> cartItemsToDtos(Set<CartItem> cartItems);
 }

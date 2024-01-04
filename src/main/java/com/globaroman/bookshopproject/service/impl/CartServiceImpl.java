@@ -46,14 +46,14 @@ public class CartServiceImpl implements CartService {
         shoppingCart.getCartItems().add(savedCartItem);
         shoppingCartRepository.save(shoppingCart);
 
-        return shoppingCartMapper.toshoppingCartDto(shoppingCart);
+        return shoppingCartMapper.toShoppingCartDto(shoppingCart);
     }
 
     @Override
     public ShoppingCartDto getShoppingCart(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         ShoppingCart shoppingCart = getShoppingCartFromDbOrNew(user);
-        return shoppingCartMapper.toshoppingCartDto(shoppingCart);
+        return shoppingCartMapper.toShoppingCartDto(shoppingCart);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CartServiceImpl implements CartService {
         cartItem.setQuantity(requestDto.getQuantity());
         cartItemRepository.save(cartItem);
         Long shoppingCartId = cartItem.getShoppingCart().getId();
-        return shoppingCartMapper.toshoppingCartDto(shoppingCartRepository
+        return shoppingCartMapper.toShoppingCartDto(shoppingCartRepository
                 .findById(shoppingCartId).orElseThrow(
                         () -> new EntityNotFoundCustomException(
                                 "Can't find cart with id: "
