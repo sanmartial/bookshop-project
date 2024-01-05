@@ -11,7 +11,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,6 +61,11 @@ public interface BookMapper {
         return Optional.ofNullable(book)
                 .map(Book::getId)
                 .orElse(null);
+    }
+
+    @Named("getPriceFromBook")
+    default BigDecimal getPriceFromBook(Book book) {
+        return book != null ? book.getPrice() : null;
     }
 
     @Named("getTitleFromBook")

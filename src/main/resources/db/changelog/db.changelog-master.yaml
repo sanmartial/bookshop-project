@@ -21,5 +21,12 @@ databaseChangeLog:
       file: /db/changelog/changes/09-create-cart-items-table.yaml
   - include:
       file: /db/changelog/changes/11-add-foreign-key-to-cart-item-table.yaml
+  - include:
+      file: /db/changelog/changes/12-create-order-items-table.yaml
+  - include:
+      file: /db/changelog/changes/13-create-orders-table.yaml
+  - include:
+      file: /db/changelog/changes/14-add-foreign-key-to-order-item-table.yaml
+
 
 
