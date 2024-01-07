@@ -5,6 +5,8 @@ import com.globaroman.bookshopproject.dto.order.OrderRequestDto;
 import com.globaroman.bookshopproject.dto.order.OrderResponseDto;
 import com.globaroman.bookshopproject.dto.order.OrderStatusDto;
 import com.globaroman.bookshopproject.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
+@Tag(name = "Order management",
+        description = "endpoint for order management")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
@@ -26,6 +30,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
+    @Operation(summary = "Add new order",
+            description = "You can creat a new order")
     public OrderResponseDto addOrder(
             @RequestBody OrderRequestDto requestDto,
             Authentication authentication) {
@@ -33,6 +39,8 @@ public class OrderController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all order",
+            description = "You can get all order as history")
     public List<OrderResponseDto> getAllOrder(Authentication authentication) {
         return orderService.getAllOrder(authentication);
     }
@@ -40,6 +48,8 @@ public class OrderController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update status order",
+            description = "You can update an order")
     public OrderResponseDto updateOrderStatus(
             @RequestBody OrderStatusDto statusDto,
             @PathVariable Long id) {
@@ -47,11 +57,15 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items")
+    @Operation(summary = "Get all item by order",
+            description = "You can get all orders from specific order")
     public List<OrderItemDto> getOrderItemsFromOrder(@PathVariable Long orderId) {
         return orderService.getOrderItensFromOrder(orderId);
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
+    @Operation(summary = "Get item by order",
+            description = "You can get order from specific order")
     public OrderItemDto getOrderItemById(
             @PathVariable Long orderId,
             @PathVariable Long itemId) {

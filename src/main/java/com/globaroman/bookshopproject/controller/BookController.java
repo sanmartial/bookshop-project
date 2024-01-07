@@ -51,7 +51,6 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(hidden = true)
     public BookDto createBook(@Valid @RequestBody CreateBookRequestDto bookDto) {
         return bookService.save(bookDto);
     }
@@ -59,7 +58,6 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(hidden = true)
     public void delete(@PathVariable Long id) {
         bookService.deleteById(id);
     }
@@ -67,7 +65,6 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(hidden = true)
     public void update(@PathVariable Long id, @RequestBody CreateBookRequestDto bookDto) {
         bookService.update(id, bookDto);
     }
