@@ -1,10 +1,10 @@
 package com.globaroman.bookshopproject.dto.order;
 
 import com.globaroman.bookshopproject.model.Status;
-import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class OrderResponseDto {

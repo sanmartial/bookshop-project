@@ -6,10 +6,10 @@ import com.globaroman.bookshopproject.dto.order.OrderResponseDto;
 import com.globaroman.bookshopproject.model.Order;
 import com.globaroman.bookshopproject.model.OrderItem;
 import com.globaroman.bookshopproject.model.ShoppingCart;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import java.util.List;
 import java.util.Set;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class, uses = UserMapper.class)
 public interface OrderMapper {
