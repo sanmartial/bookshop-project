@@ -4,9 +4,9 @@ import com.globaroman.bookshopproject.config.MapperConfig;
 import com.globaroman.bookshopproject.dto.user.UserRegistrationRequestDto;
 import com.globaroman.bookshopproject.dto.user.UserResponseDto;
 import com.globaroman.bookshopproject.model.User;
+import java.util.Optional;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
-import java.util.Optional;
 
 @Mapper(config = MapperConfig.class)
 public interface UserMapper {

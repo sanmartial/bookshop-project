@@ -6,16 +6,16 @@ import com.globaroman.bookshopproject.dto.book.BookDtoWithoutCategoryIds;
 import com.globaroman.bookshopproject.dto.book.CreateBookRequestDto;
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.model.Category;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
