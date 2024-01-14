@@ -16,7 +16,7 @@ public interface BookService {
 
     void deleteById(Long id);
 
-    void update(Long id, CreateBookRequestDto bookDto);
+    BookDto update(Long id, CreateBookRequestDto bookDto);
 
     List<BookDto> search(BookSearchParameters bookSearchParameterDto);
 
