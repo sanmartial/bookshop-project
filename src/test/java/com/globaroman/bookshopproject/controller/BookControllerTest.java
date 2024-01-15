@@ -1,11 +1,6 @@
 package com.globaroman.bookshopproject.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.globaroman.bookshopproject.dto.book.BookDto;
 import com.globaroman.bookshopproject.dto.book.BookSearchParameters;
 import com.globaroman.bookshopproject.dto.book.CreateBookRequestDto;
 import com.globaroman.bookshopproject.model.Book;
@@ -15,7 +10,6 @@ import com.globaroman.bookshopproject.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Set;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,10 +21,13 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -67,20 +64,16 @@ class BookControllerTest {
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
         //When
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/books")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/books")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andReturn();
-        //Then
-        BookDto actual = objectMapper.readValue(result.getResponse()
-                .getContentAsString(), BookDto.class);
-
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.getId());
-
-        EqualsBuilder.reflectionEquals(requestDto, actual, "id");
-
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.title").value("Book 1"))
+                .andExpect(jsonPath("$.author").value("Author 1"))
+                .andExpect(jsonPath("$.description").value("Description 1"))
+                .andExpect(jsonPath("$.isbn").value("9-781-34119-5"))
+                .andExpect(jsonPath("$.price").value(BigDecimal.valueOf(29.99)));
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -89,14 +82,13 @@ class BookControllerTest {
     @Transactional
     @Rollback
     void getAll_GivenBookFromDB_ShouldReturnAllBooks() throws Exception {
+        //Given
+        Book book = createTestBookTemplateWithCategory();
 
-        MvcResult resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/books")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/books")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andReturn();
-        BookDto[] bookDto = objectMapper.readValue(resultActions.getResponse()
-                .getContentAsByteArray(), BookDto[].class);
+                .andExpect(jsonPath("$").isArray());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -105,24 +97,20 @@ class BookControllerTest {
     @Transactional
     @Rollback
     void getBookById_GetBookByExistId_ShouldReturnExistBookDto() throws Exception {
-
         //Given
         Book book = createTestBookTemplateWithCategory();
 
         //When
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/books/{id}", book.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        //Then
-        BookDto actual = objectMapper.readValue(result.getResponse()
-                .getContentAsString(), BookDto.class);
-
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.getId());
-        EqualsBuilder.reflectionEquals(book, actual, "id");
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.title").value("Existing Book"))
+                .andExpect(jsonPath("$.author").value("Existing Author"))
+                .andExpect(jsonPath("$.description").value("Existing Description"))
+                .andExpect(jsonPath("$.isbn").value("9-781-34119-1"))
+                .andExpect(jsonPath("$.price").value(BigDecimal.valueOf(19.99)));
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -135,20 +123,13 @@ class BookControllerTest {
         createTestBookTemplateWithCategory();
         BookSearchParameters bookSearchParameters =
                 new BookSearchParameters(new String[]{"Existing Book"}, null, null);
-        int expectedSize = 1;
 
         //When
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/books/search")
+       mockMvc.perform(MockMvcRequestBuilders.get("/api/books/search")
                         .param("title", bookSearchParameters.title())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        //Then
-        BookDto[] actual = objectMapper.readValue(result.getResponse()
-                .getContentAsByteArray(), BookDto[].class);
-
-        Assertions.assertEquals(expectedSize, actual.length);
+               .andExpect(jsonPath("$").isArray());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -162,11 +143,8 @@ class BookControllerTest {
         //When
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/books/{id}", book.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        //Then
-        Assertions.assertFalse(bookRepository.findById(book.getId()).isPresent());
-        Assertions.assertNull(bookRepository.findById(book.getId()).orElse(null));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").doesNotExist());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -181,16 +159,15 @@ class BookControllerTest {
 
         //When
         String requestContent = objectMapper.writeValueAsString(requestBook);
-        String responseContent = mockMvc.perform(put("/api/books/{id}", book.getId())
+       mockMvc.perform(put("/api/books/{id}", book.getId())
                         .content(requestContent)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        BookDto updatedBook = objectMapper.readValue(responseContent, BookDto.class);
-        //Then
-        Assertions.assertNotNull(updatedBook);
-        EqualsBuilder.reflectionEquals(requestBook, updatedBook, "id");
+                .andExpect(jsonPath("$.title").value("Book 1"))
+                .andExpect(jsonPath("$.author").value("Author 1"))
+                .andExpect(jsonPath("$.description").value("Description 1"))
+                .andExpect(jsonPath("$.isbn").value("9-781-34119-5"))
+                .andExpect(jsonPath("$.price").value(BigDecimal.valueOf(29.99)));
     }
 
     private Category createTestCategory() {

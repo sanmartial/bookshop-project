@@ -2,10 +2,9 @@ package com.globaroman.bookshopproject.repository;
 
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.model.Category;
+import org.junit.jupiter.api.Assertions;
 import java.math.BigDecimal;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,12 @@ class BookRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    private Category category;
-
-    @BeforeEach
-    public void setUp() {
-        category = new Category();
+    @Test
+    @DisplayName("Find all book by categoryId")
+    @Sql(scripts = "classpath:database/scripts/remove-books-from-fb-table.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void findAllByCategoryId_WithExistsCategory_ReturnListBooks() {
+        Category category = new Category();
         category.setName("Test Category");
         category.setDescription("Category Description");
         categoryRepository.save(category);
@@ -42,13 +42,6 @@ class BookRepositoryTest {
         newBook.setCoverImage("cover1.jpg");
         newBook.getCategories().add(category);
         bookRepository.save(newBook);
-    }
-
-    @Test
-    @DisplayName("Find all book by categoryId")
-    @Sql(scripts = "classpath:database/scripts/remove-books-from-fb-table.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findAllByCategoryId_WithExistsCategory_ReturnListBooks() {
         Long categoryId = category.getId();
         Pageable pageable = Pageable.unpaged();
 

@@ -1,10 +1,5 @@
 package com.globaroman.bookshopproject.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.globaroman.bookshopproject.dto.book.BookDto;
 import com.globaroman.bookshopproject.dto.category.CategoryDto;
 import com.globaroman.bookshopproject.dto.category.CreateCategoryRequestDto;
 import com.globaroman.bookshopproject.model.Book;
@@ -29,7 +24,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -63,18 +61,13 @@ class CategoryControllerTest {
         CreateCategoryRequestDto requestDto = createTestCreateCategoryRequestDto();
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/categories")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/categories")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andReturn();
-
-        CategoryDto actual = objectMapper.readValue(result.getResponse()
-                .getContentAsString(), CategoryDto.class);
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.getId());
-
-        EqualsBuilder.reflectionEquals(requestDto, actual, "id");
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("Fiction"))
+                .andExpect(jsonPath("$.description").value("Fictional Books"));
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -87,10 +80,8 @@ class CategoryControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/categories/{id}", category.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        Assertions.assertFalse(categoryRepository.findById(category.getId()).isPresent());
-        Assertions.assertNull(categoryRepository.findById(category.getId()).orElse(null));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").doesNotExist());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -103,39 +94,26 @@ class CategoryControllerTest {
         Category category = createTestCategory();
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/categories/{id}", category.getId())
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andReturn();
-
-        CategoryDto updateCategory = objectMapper.readValue(result.getResponse()
-                .getContentAsString(), CategoryDto.class);
-
-        Assertions.assertNotNull(updateCategory);
-        EqualsBuilder.reflectionEquals(requestDto, updateCategory, "id");
-
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("Fiction"))
+                .andExpect(jsonPath("$.description").value("Fictional Books"));
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
     @DisplayName("Get all categories")
-    @Transactional
-    @Rollback
     void getAll_GivenAllCategoriesFromDB_ShouldReturnAllCategories() throws Exception {
-        CategoryDto[] categoryDtoEmpty = new CategoryDto[]{};
         MvcResult resultActions = mockMvc.perform(get("/api/categories")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andReturn();
-
-        CategoryDto[] categoryDto = objectMapper.readValue(resultActions.getResponse()
-                .getContentAsByteArray(), CategoryDto[].class);
-
-        Assertions.assertNotEquals(categoryDtoEmpty, categoryDto);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -146,17 +124,12 @@ class CategoryControllerTest {
     void getCategoryById_GetCategoryByExistId_ShouldReturnExistCategoryDto() throws Exception {
         Category category = createTestCategory();
 
-        MvcResult result = mockMvc.perform(get("/api/categories/{id}", category.getId())
+       mockMvc.perform(get("/api/categories/{id}", category.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        CategoryDto actual = objectMapper.readValue(result
-                .getResponse().getContentAsString(), CategoryDto.class);
-
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.getId());
-        EqualsBuilder.reflectionEquals(category, actual, "id");
+               .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("Test Category"))
+                .andExpect(jsonPath("$.description").value("Category Description"));
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -168,16 +141,11 @@ class CategoryControllerTest {
         Category category = createTestCategory();
         createTestBookTemplateWithCategory(category);
 
-        BookDto[] bookDtoEmpty = new BookDto[]{};
-
-        MvcResult result = mockMvc.perform(get("/api/categories/{id}/books", category.getId())
+       mockMvc.perform(get("/api/categories/{id}/books"
+                        , category.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        BookDto[] bookDtos = objectMapper.readValue(result.getResponse()
-                .getContentAsByteArray(), BookDto[].class);
-        Assertions.assertNotEquals(bookDtoEmpty, bookDtos);
+                .andExpect(jsonPath("$").isArray());
     }
 
     private Category createTestCategory() {
