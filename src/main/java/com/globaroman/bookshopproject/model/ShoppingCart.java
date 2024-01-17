@@ -13,11 +13,13 @@ import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "shopping_carts")
 @Data
 @EqualsAndHashCode(exclude = {"cartItems", "user"})
+@Accessors(chain = true)
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

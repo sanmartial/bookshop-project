@@ -2,9 +2,9 @@ package com.globaroman.bookshopproject.repository;
 
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.model.Category;
-import org.junit.jupiter.api.Assertions;
 import java.math.BigDecimal;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -36,6 +36,7 @@ public class CartController {
     }
 
     @PutMapping("cart-items/{cartItemId}")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update new quantity books",
             description = "You can update quantity into your cart")
     public ShoppingCartDto update(
@@ -53,7 +54,7 @@ public class CartController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all books",
+    @Operation(summary = "Get shopping cart",
             description = "You can get all selected books from your cart")
     public ShoppingCartDto getShoppingCart(Authentication authentication) {
         return cartService.getShoppingCart(authentication);
