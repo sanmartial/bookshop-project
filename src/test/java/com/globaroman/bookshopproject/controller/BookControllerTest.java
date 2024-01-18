@@ -1,5 +1,9 @@
 package com.globaroman.bookshopproject.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.globaroman.bookshopproject.dto.book.BookSearchParameters;
 import com.globaroman.bookshopproject.dto.book.CreateBookRequestDto;
@@ -10,7 +14,6 @@ import com.globaroman.bookshopproject.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,10 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -125,11 +124,11 @@ class BookControllerTest {
                 new BookSearchParameters(new String[]{"Existing Book"}, null, null);
 
         //When
-       mockMvc.perform(MockMvcRequestBuilders.get("/api/books/search")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/books/search")
                         .param("title", bookSearchParameters.title())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-               .andExpect(jsonPath("$").isArray());
+                .andExpect(jsonPath("$").isArray());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -159,7 +158,7 @@ class BookControllerTest {
 
         //When
         String requestContent = objectMapper.writeValueAsString(requestBook);
-       mockMvc.perform(put("/api/books/{id}", book.getId())
+        mockMvc.perform(put("/api/books/{id}", book.getId())
                         .content(requestContent)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

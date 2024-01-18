@@ -1,6 +1,9 @@
 package com.globaroman.bookshopproject.controller;
 
-import com.globaroman.bookshopproject.dto.category.CategoryDto;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.globaroman.bookshopproject.dto.category.CreateCategoryRequestDto;
 import com.globaroman.bookshopproject.model.Book;
 import com.globaroman.bookshopproject.model.Category;
@@ -8,7 +11,6 @@ import com.globaroman.bookshopproject.repository.BookRepository;
 import com.globaroman.bookshopproject.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,10 +26,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -124,7 +122,7 @@ class CategoryControllerTest {
     void getCategoryById_GetCategoryByExistId_ShouldReturnExistCategoryDto() throws Exception {
         Category category = createTestCategory();
 
-       mockMvc.perform(get("/api/categories/{id}", category.getId())
+        mockMvc.perform(get("/api/categories/{id}", category.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                .andExpect(jsonPath("$.id").exists())
@@ -141,8 +139,7 @@ class CategoryControllerTest {
         Category category = createTestCategory();
         createTestBookTemplateWithCategory(category);
 
-       mockMvc.perform(get("/api/categories/{id}/books"
-                        , category.getId())
+        mockMvc.perform(get("/api/categories/{id}/books", category.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
