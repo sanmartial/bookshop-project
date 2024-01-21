@@ -34,7 +34,6 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(hidden = true)
     public CategoryDto createCategory(@Valid @RequestBody CreateCategoryRequestDto requestDto) {
         return categoryService.save(requestDto);
     }
@@ -42,7 +41,6 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(hidden = true)
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteById(id);
     }
@@ -50,7 +48,6 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(hidden = true)
     public CategoryDto updateCategory(
             @PathVariable Long id,
             @RequestBody CreateCategoryRequestDto requestDto) {

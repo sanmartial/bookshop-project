@@ -1,0 +1,112 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: com.globaroman
+      changes:
+        - insert:
+            catalogName:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Fiction"
+              - column:
+                  name: description
+                  value: "Imaginative and often speculative works, including novels, short stories, and novellas."
+
+        - insert:
+            catalogName:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Mystery"
+              - column:
+                  name: description
+                  value: "Books involving a crime or puzzle to be solved, typically by a detective or investigator."
+
+        - insert:
+            catalogName:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Science Fiction"
+              - column:
+                  name: description
+                  value: "Speculative fiction that explores imaginative and futuristic concepts."
+
+        - insert:
+            catalogName:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Romance"
+              - column:
+                  name: description
+                  value: "Novels focused on romantic love relationships."
+
+        - insert:
+            catalogName:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "History"
+              - column:
+                  name: description
+                  value: "Books that explore and narrate historical events."
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Biography"
+              - column:
+                  name: description
+                  value: "Books detailing the life of an individual, often a public figure."
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Fantasy"
+              - column:
+                  name: description
+                  value: "Imaginative fiction involving magic, supernatural elements, and fantastical creatures."
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Thriller"
+              - column:
+                  name: description
+                  value: "Books designed to keep readers on the edge of their seats with suspenseful plots."
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Self-Help"
+              - column:
+                  name: description
+                  value: "Books focused on personal development and self-improvement."
+
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Cookbook"
+              - column:
+                  name: description
+                  value: "Books containing recipes and culinary techniques."
+
+
+
