@@ -34,7 +34,6 @@ public class BookServiceImpl implements BookService {
         Book book = bookMapper.toModel(requestDto);
         return bookMapper.toDto(bookRepository.save(book));
     }
-
     @Override
     public List<BookDto> findAll(Pageable pageable) {
 
@@ -43,7 +42,6 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDto)
                 .toList();
     }
-
     @Override
     public BookDto getById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
